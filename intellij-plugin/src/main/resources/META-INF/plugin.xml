@@ -1,0 +1,32 @@
+<idea-plugin>
+  <id>com.kibernet.luaunity</id>
+  <name>LuaUnity</name>
+  <version>1.0.0</version>
+  <vendor url="https://github.com/kibernet/LuaUnity">Kibernet</vendor>
+  <description><![CDATA[
+    Receive Unity type metadata and generate Lua annotation files for IntelliJ-based IDEs.
+    Configure the local type server under <b>Settings | Tools | LuaUnity</b>.
+  ]]></description>
+  <change-notes><![CDATA[
+    <ul>
+      <li>Initial clean implementation for IntelliJ-based IDEs.</li>
+    </ul>
+  ]]></change-notes>
+  <idea-version since-build="241"/>
+  <depends>com.intellij.modules.platform</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService serviceImplementation="com.kibernet.luaunity.settings.LuaUnitySettings"/>
+    <projectService serviceImplementation="com.kibernet.luaunity.service.LuaUnityProjectService"/>
+    <notificationGroup id="LuaUnity" displayType="BALLOON" displayName="LuaUnity" isLogByDefault="true"/>
+    <projectConfigurable parentId="tools" instance="com.kibernet.luaunity.settings.LuaUnityConfigurable" id="LuaUnityConfigurable" displayName="LuaUnity"/>
+    <postStartupActivity implementation="com.kibernet.luaunity.startup.LuaUnityStartupActivity"/>
+  </extensions>
+  <actions>
+    <action id="LuaUnity.StartServer" class="com.kibernet.luaunity.actions.StartServerAction" text="Start LuaUnity Type Server" description="Start the LuaUnity local type server">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </action>
+    <action id="LuaUnity.StopServer" class="com.kibernet.luaunity.actions.StopServerAction" text="Stop LuaUnity Type Server" description="Stop the LuaUnity local type server">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </action>
+  </actions>
+</idea-plugin>

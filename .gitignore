@@ -1,0 +1,51 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.temp
+*.log
+
+# JetBrains / VS Code local state
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+*.iml
+
+# Local tools and scratch space
+.tools/
+tools/
+_plugin_extract/
+*.class
+*.ctxt
+intellij-plugin/src/main/java/summary.txt
+
+# Gradle / IntelliJ plugin build outputs
+.gradle/
+build/
+out/
+intellij-plugin/.gradle/
+intellij-plugin/.gradle-user-home/
+intellij-plugin/.intellijPlatform/
+intellij-plugin/build/
+intellij-plugin/out/
+
+# Node / VS Code extension build outputs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+vscode-plugin/node_modules/
+vscode-plugin/out/
+vscode-plugin/dist/
+vscode-plugin/.vscode-test/
+vscode-plugin/*.tsbuildinfo
+vscode-plugin/*.vsix
+*.vsix
+
+# Generated packages / archives
+intellij-plugin/build/distributions/

@@ -1,0 +1,84 @@
+{
+  "name": "luaunity",
+  "displayName": "LuaUnity",
+  "description": "Receive Unity type metadata and generate Lua annotations for VS Code and Cursor.",
+  "version": "1.0.0",
+  "publisher": "kibernet",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kibernet/LuaUnity"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "luaUnity.startServer",
+        "title": "LuaUnity: Start Type Server"
+      },
+      {
+        "command": "luaUnity.stopServer",
+        "title": "LuaUnity: Stop Type Server"
+      },
+      {
+        "command": "luaUnity.openAnnotations",
+        "title": "LuaUnity: Open Generated Annotations"
+      },
+      {
+        "command": "luaUnity.clearAnnotations",
+        "title": "LuaUnity: Clear Generated Annotations"
+      },
+      {
+        "command": "luaUnity.addAnnotationsToLuaWorkspace",
+        "title": "LuaUnity: Add Annotations To Lua Workspace Library"
+      }
+    ],
+    "configuration": {
+      "title": "LuaUnity",
+      "properties": {
+        "luaUnity.port": {
+          "type": "number",
+          "default": 996,
+          "description": "TCP port used to receive Unity type metadata."
+        },
+        "luaUnity.outputDirectory": {
+          "type": "string",
+          "default": ".luaunity/annotations",
+          "description": "Workspace-relative directory for generated Lua annotation files."
+        },
+        "luaUnity.autoStartServer": {
+          "type": "boolean",
+          "default": true,
+          "description": "Start the LuaUnity type server when VS Code finishes startup."
+        },
+        "luaUnity.updateLuaWorkspaceLibrary": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically add generated annotations to Lua.workspace.library when a library is received."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package:vsix": "vsce package -o luaunity-%npm_package_version%.vsix"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^2.15.0",
+    "typescript": "^5.0.0"
+  }
+}
