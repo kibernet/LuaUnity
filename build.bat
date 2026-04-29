@@ -6,7 +6,7 @@ set "ROOT_DIR=%ROOT_DIR:~0,-1%"
 set "INTELLIJ_DIR=%ROOT_DIR%\intellij-plugin"
 set "VSCODE_DIR=%ROOT_DIR%\vscode-plugin"
 set "TOOLS_DIR=%ROOT_DIR%\.tools"
-set "GRADLE_VERSION=8.12"
+set "GRADLE_VERSION=9.0.0"
 set "NODE_VERSION=20.19.0"
 
 call :main
@@ -16,15 +16,13 @@ if not "%BUILD_CODE%"=="0" (
     echo ========================================
     echo Build failed with exit code %BUILD_CODE%.
     echo ========================================
-    pause
 )
+echo.
+echo Press any key to exit...
+pause >nul
 exit /b %BUILD_CODE%
 
 :main
-echo ========================================
-echo LuaUnity build
-echo ========================================
-echo.
 
 call :build_intellij || exit /b %ERRORLEVEL%
 call :build_vscode || exit /b %ERRORLEVEL%
@@ -33,7 +31,6 @@ echo.
 echo ========================================
 echo All builds completed successfully!
 echo ========================================
-pause
 exit /b 0
 
 :build_intellij
@@ -177,7 +174,7 @@ exit /b 0
 where gradle >nul 2>nul
 if not errorlevel 1 exit /b 0
 
-set "GRADLE_HOME=%TOOLS_DIR%\gradle"
+set "GRADLE_HOME=%TOOLS_DIR%\gradle-%GRADLE_VERSION%"
 if exist "%GRADLE_HOME%\bin\gradle.bat" (
     set "PATH=%GRADLE_HOME%\bin;%PATH%"
     exit /b 0
@@ -188,7 +185,5 @@ if not exist "%TOOLS_DIR%" mkdir "%TOOLS_DIR%"
 set "GRADLE_ZIP=%TOOLS_DIR%\gradle-%GRADLE_VERSION%-bin.zip"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri 'https://mirrors.cloud.tencent.com/gradle/gradle-%GRADLE_VERSION%-bin.zip' -OutFile '%GRADLE_ZIP%'" || exit /b 1
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Expand-Archive -Path '%GRADLE_ZIP%' -DestinationPath '%TOOLS_DIR%' -Force" || exit /b 1
-if exist "%GRADLE_HOME%" rmdir /s /q "%GRADLE_HOME%"
-ren "%TOOLS_DIR%\gradle-%GRADLE_VERSION%" gradle
 set "PATH=%GRADLE_HOME%\bin;%PATH%"
 exit /b 0

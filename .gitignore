@@ -19,6 +19,8 @@ desktop.ini
 .tools/
 tools/
 _plugin_extract/
+.cache/
+.tmp/
 *.class
 *.ctxt
 intellij-plugin/src/main/java/summary.txt
@@ -27,11 +29,13 @@ intellij-plugin/src/main/java/summary.txt
 .gradle/
 build/
 out/
+*.hprof
 intellij-plugin/.gradle/
 intellij-plugin/.gradle-user-home/
 intellij-plugin/.intellijPlatform/
 intellij-plugin/build/
 intellij-plugin/out/
+intellij-plugin/gradle-app.setting
 
 # Node / VS Code extension build outputs
 node_modules/
@@ -39,13 +43,18 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.tgz
 vscode-plugin/node_modules/
 vscode-plugin/out/
 vscode-plugin/dist/
 vscode-plugin/.vscode-test/
+vscode-plugin/.vscode-test*/
+vscode-plugin/.nyc_output/
+vscode-plugin/coverage/
 vscode-plugin/*.tsbuildinfo
 vscode-plugin/*.vsix
 *.vsix
 
 # Generated packages / archives
 intellij-plugin/build/distributions/
+intellij-plugin/*.zip

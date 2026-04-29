@@ -6,6 +6,7 @@ import { UnityProtocolServer } from './UnityProtocolServer';
 
 let server: UnityProtocolServer | undefined;
 let statusBarItem: vscode.StatusBarItem | undefined;
+const defaultPort = 996;
 
 export function activate(context: vscode.ExtensionContext): void {
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
@@ -46,7 +47,7 @@ async function startServer(): Promise<void> {
             vscode.window.showInformationMessage(`LuaUnity type server is listening on 127.0.0.1:${port}.`);
         });
         server.on('stopped', () => updateStatus(false));
-        server.on('error', error => vscode.window.showErrorMessage(`LuaUnity: ${error.message}`));
+        server.on('error', error => vscode.window.showErrorMessage(formatServerError(error)));
         server.on('library', async classes => {
             try {
                 const outputDirectory = getOutputDirectory(workspaceRoot);
@@ -62,7 +63,7 @@ async function startServer(): Promise<void> {
     }
 
     if (!server.isRunning()) {
-        server.start(getConfig().get<number>('port', 996));
+        server.start(getConfig().get<number>('port', defaultPort));
     }
 }
 
@@ -159,4 +160,19 @@ function getOutputDirectory(workspaceRoot: string): string {
 
 function formatError(error: unknown): string {
     return error instanceof Error ? error.message : String(error);
+}
+
+function formatServerError(error: Error): string {
+    const port = getConfig().get<number>('port', defaultPort);
+    const code = typeof (error as NodeJS.ErrnoException).code === 'string'
+        ? (error as NodeJS.ErrnoException).code
+        : undefined;
+
+    if (code === 'EACCES') {
+        return `LuaUnity cannot listen on 127.0.0.1:${port}. Port 996 is required by the Unity bridge protocol, but the system denied access. Run Cursor with sufficient permissions or release this port from the OS reserved/excluded port range, then restart the server.`;
+    }
+    if (code === 'EADDRINUSE') {
+        return `LuaUnity cannot listen on 127.0.0.1:${port} because port 996 is already in use. Stop the other process and restart the LuaUnity server.`;
+    }
+    return `LuaUnity: ${error.message}`;
 }
